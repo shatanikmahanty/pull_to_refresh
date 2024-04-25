@@ -1,9 +1,7 @@
-
+import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
 import 'package:flutter/widgets.dart';
-import 'package:pull_to_refresh_new/pull_to_refresh.dart';
 import 'package:flutter_gifimage/flutter_gifimage.dart';
-import 'package:flutter/material.dart'
-    hide RefreshIndicator, RefreshIndicatorState;
+import 'package:pull_to_refresh_new/pull_to_refresh.dart';
 
 /*
   I use my plugin to implements gif effect,this plugin can help you to controll gif easily,
@@ -18,8 +16,7 @@ class GifHeader1 extends RefreshIndicator {
   }
 }
 
-class GifHeader1State extends RefreshIndicatorState<GifHeader1>
-    with SingleTickerProviderStateMixin {
+class GifHeader1State extends RefreshIndicatorState<GifHeader1> with SingleTickerProviderStateMixin {
   GifController _gifController;
 
   @override
@@ -37,15 +34,13 @@ class GifHeader1State extends RefreshIndicatorState<GifHeader1>
   void onModeChange(RefreshStatus mode) {
     // TODO: implement onModeChange
     if (mode == RefreshStatus.refreshing) {
-      _gifController.repeat(
-          min: 0, max: 29, period: Duration(milliseconds: 500));
+      _gifController.repeat(min: 0, max: 29, period: Duration(milliseconds: 500));
     }
     super.onModeChange(mode);
   }
 
   @override
   Future<void> endRefresh() {
-    // TODO: implement endRefresh
     _gifController.value = 30;
     return _gifController.animateTo(59, duration: Duration(milliseconds: 500));
   }
@@ -87,8 +82,7 @@ class GifFooter1 extends StatefulWidget {
   }
 }
 
-class _GifFooter1State extends State<GifFooter1>
-    with SingleTickerProviderStateMixin {
+class _GifFooter1State extends State<GifFooter1> with SingleTickerProviderStateMixin {
   GifController _gifController;
 
   @override
@@ -118,14 +112,12 @@ class _GifFooter1State extends State<GifFooter1>
       loadStyle: LoadStyle.ShowWhenLoading,
       onModeChange: (mode) {
         if (mode == LoadStatus.loading) {
-          _gifController.repeat(
-              min: 0, max: 29, period: Duration(milliseconds: 500));
+          _gifController.repeat(min: 0, max: 29, period: Duration(milliseconds: 500));
         }
       },
       endLoading: () async {
         _gifController.value = 30;
-        return _gifController.animateTo(59,
-            duration: Duration(milliseconds: 500));
+        return _gifController.animateTo(59, duration: Duration(milliseconds: 500));
       },
     );
   }

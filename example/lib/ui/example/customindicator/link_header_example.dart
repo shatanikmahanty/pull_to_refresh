@@ -1,4 +1,3 @@
-
 /*
    use to place indicator to other places,such as WeChat friend circle refresh effect
    int 1.4.7 version will add it
@@ -7,6 +6,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_new/pull_to_refresh.dart';
+
 import '../../Item.dart';
 
 class LinkHeaderExample extends StatefulWidget {
@@ -94,8 +94,7 @@ class _LinkHeaderExampleState extends State<LinkHeaderExample> {
             Container(
               height: 64.0,
               child: AppBar(
-                backgroundColor:
-                    dismissAppbar ? Colors.blueAccent : Colors.transparent,
+                backgroundColor: dismissAppbar ? Colors.blueAccent : Colors.transparent,
                 elevation: dismissAppbar ? 1.0 : 0.0,
                 title: SimpleLinkBar(
                   key: linkKey,
@@ -120,8 +119,7 @@ class SimpleLinkBar extends StatefulWidget {
   }
 }
 
-class _SimpleLinkBarState extends State<SimpleLinkBar>
-    with RefreshProcessor, SingleTickerProviderStateMixin {
+class _SimpleLinkBarState extends State<SimpleLinkBar> with RefreshProcessor, SingleTickerProviderStateMixin {
   RefreshStatus _status = RefreshStatus.idle;
   AnimationController _animationController;
 
@@ -140,16 +138,13 @@ class _SimpleLinkBarState extends State<SimpleLinkBar>
 
   @override
   Future endRefresh() {
-    // TODO: implement endRefresh
     _animationController.animateTo(0.0, duration: Duration(milliseconds: 300));
     return Future.value();
   }
 
   @override
   void onOffsetChange(double offset) {
-    // TODO: implement onOffsetChange
-    if (_status != RefreshStatus.refreshing)
-      _animationController.value = offset / 80.0;
+    if (_status != RefreshStatus.refreshing) _animationController.value = offset / 80.0;
     super.onOffsetChange(offset);
   }
 

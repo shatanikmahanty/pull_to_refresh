@@ -1,12 +1,8 @@
-
-import 'package:flutter/material.dart'
-    hide RefreshIndicator, RefreshIndicatorState;
-import 'package:flutter/widgets.dart';
-import '../../pull_to_refresh.dart';
-import '../internals/indicator_wrap.dart';
-import '../smart_refresher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
+
+import '../../pull_to_refresh.dart';
 
 /// direction that icon should place to the text
 enum IconPosition { left, right, top, bottom }
@@ -32,19 +28,8 @@ class ClassicHeader extends RefreshIndicator {
   /// ````
   /// In this example,it will help to add backgroundColor in indicator
   final OuterBuilder? outerBuilder;
-  final String? releaseText,
-      idleText,
-      refreshingText,
-      completeText,
-      failedText,
-      canTwoLevelText;
-  final Widget? releaseIcon,
-      idleIcon,
-      refreshingIcon,
-      completeIcon,
-      failedIcon,
-      canTwoLevelIcon,
-      twoLevelView;
+  final String? releaseText, idleText, refreshingText, completeText, failedText, canTwoLevelText;
+  final Widget? releaseIcon, idleIcon, refreshingIcon, completeIcon, failedIcon, canTwoLevelIcon, twoLevelView;
 
   /// icon and text middle margin
   final double spacing;
@@ -54,11 +39,11 @@ class ClassicHeader extends RefreshIndicator {
 
   const ClassicHeader({
     Key? key,
-    RefreshStyle refreshStyle: RefreshStyle.Follow,
-    double height: 60.0,
-    Duration completeDuration: const Duration(milliseconds: 600),
+    RefreshStyle refreshStyle = RefreshStyle.Follow,
+    double height = 60.0,
+    Duration completeDuration = const Duration(milliseconds: 600),
     this.outerBuilder,
-    this.textStyle: const TextStyle(color: Colors.grey),
+    this.textStyle = const TextStyle(color: Colors.grey),
     this.releaseText,
     this.refreshingText,
     this.canTwoLevelIcon,
@@ -67,11 +52,11 @@ class ClassicHeader extends RefreshIndicator {
     this.completeText,
     this.failedText,
     this.idleText,
-    this.iconPos: IconPosition.left,
-    this.spacing: 15.0,
+    this.iconPos = IconPosition.left,
+    this.spacing = 15.0,
     this.refreshingIcon,
-    this.failedIcon: const Icon(Icons.error, color: Colors.grey),
-    this.completeIcon: const Icon(Icons.done, color: Colors.grey),
+    this.failedIcon = const Icon(Icons.error, color: Colors.grey),
+    this.completeIcon = const Icon(Icons.done, color: Colors.grey),
     this.idleIcon = const Icon(Icons.arrow_downward, color: Colors.grey),
     this.releaseIcon = const Icon(Icons.refresh, color: Colors.grey),
   }) : super(
@@ -83,16 +68,13 @@ class ClassicHeader extends RefreshIndicator {
 
   @override
   State createState() {
-    // TODO: implement createState
     return _ClassicHeaderState();
   }
 }
 
 class _ClassicHeaderState extends RefreshIndicatorState<ClassicHeader> {
   Widget _buildText(mode) {
-    RefreshString strings =
-        RefreshLocalizations.of(context)?.currentLocalization ??
-            EnRefreshString();
+    RefreshString strings = RefreshLocalizations.of(context)?.currentLocalization ?? EnRefreshString();
     return Text(
         mode == RefreshStatus.canRefresh
             ? widget.releaseText ?? strings.canRefreshText!
@@ -105,8 +87,7 @@ class _ClassicHeaderState extends RefreshIndicatorState<ClassicHeader> {
                         : mode == RefreshStatus.idle
                             ? widget.idleText ?? strings.idleRefreshText!
                             : mode == RefreshStatus.canTwoLevel
-                                ? widget.canTwoLevelText ??
-                                    strings.canTwoLevelText!
+                                ? widget.canTwoLevelText ?? strings.canTwoLevelText!
                                 : "",
         style: widget.textStyle);
   }
@@ -129,11 +110,9 @@ class _ClassicHeaderState extends RefreshIndicatorState<ClassicHeader> {
                                     SizedBox(
                                       width: 25.0,
                                       height: 25.0,
-                                      child: defaultTargetPlatform ==
-                                              TargetPlatform.iOS
+                                      child: defaultTargetPlatform == TargetPlatform.iOS
                                           ? const CupertinoActivityIndicator()
-                                          : const CircularProgressIndicator(
-                                              strokeWidth: 2.0),
+                                          : const CircularProgressIndicator(strokeWidth: 2.0),
                                     )
                                 : widget.twoLevelView;
     return icon ?? Container();
@@ -141,29 +120,21 @@ class _ClassicHeaderState extends RefreshIndicatorState<ClassicHeader> {
 
   @override
   bool needReverseAll() {
-    // TODO: implement needReverseAll
     return false;
   }
 
   @override
   Widget buildContent(BuildContext context, RefreshStatus? mode) {
-    // TODO: implement buildContent
     Widget textWidget = _buildText(mode);
     Widget iconWidget = _buildIcon(mode);
     List<Widget> children = <Widget>[iconWidget, textWidget];
     final Widget container = Wrap(
       spacing: widget.spacing,
-      textDirection: widget.iconPos == IconPosition.left
-          ? TextDirection.ltr
-          : TextDirection.rtl,
-      direction: widget.iconPos == IconPosition.bottom ||
-              widget.iconPos == IconPosition.top
-          ? Axis.vertical
-          : Axis.horizontal,
+      textDirection: widget.iconPos == IconPosition.left ? TextDirection.ltr : TextDirection.rtl,
+      direction:
+          widget.iconPos == IconPosition.bottom || widget.iconPos == IconPosition.top ? Axis.vertical : Axis.horizontal,
       crossAxisAlignment: WrapCrossAlignment.center,
-      verticalDirection: widget.iconPos == IconPosition.bottom
-          ? VerticalDirection.up
-          : VerticalDirection.down,
+      verticalDirection: widget.iconPos == IconPosition.bottom ? VerticalDirection.up : VerticalDirection.down,
       alignment: WrapAlignment.center,
       children: children,
     );
@@ -212,22 +183,22 @@ class ClassicFooter extends LoadIndicator {
   const ClassicFooter({
     Key? key,
     VoidCallback? onClick,
-    LoadStyle loadStyle: LoadStyle.ShowAlways,
-    double height: 60.0,
+    LoadStyle loadStyle = LoadStyle.ShowAlways,
+    double height = 60.0,
     this.outerBuilder,
-    this.textStyle: const TextStyle(color: Colors.grey),
+    this.textStyle = const TextStyle(color: Colors.grey),
     this.loadingText,
     this.noDataText,
     this.noMoreIcon,
     this.idleText,
     this.failedText,
     this.canLoadingText,
-    this.failedIcon: const Icon(Icons.error, color: Colors.grey),
-    this.iconPos: IconPosition.left,
-    this.spacing: 15.0,
-    this.completeDuration: const Duration(milliseconds: 300),
+    this.failedIcon = const Icon(Icons.error, color: Colors.grey),
+    this.iconPos = IconPosition.left,
+    this.spacing = 15.0,
+    this.completeDuration = const Duration(milliseconds: 300),
     this.loadingIcon,
-    this.canLoadingIcon: const Icon(Icons.autorenew, color: Colors.grey),
+    this.canLoadingIcon = const Icon(Icons.autorenew, color: Colors.grey),
     this.idleIcon = const Icon(Icons.arrow_upward, color: Colors.grey),
   }) : super(
           key: key,
@@ -238,17 +209,13 @@ class ClassicFooter extends LoadIndicator {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-
     return _ClassicFooterState();
   }
 }
 
 class _ClassicFooterState extends LoadIndicatorState<ClassicFooter> {
   Widget _buildText(LoadStatus? mode) {
-    RefreshString strings =
-        RefreshLocalizations.of(context)?.currentLocalization ??
-            EnRefreshString();
+    RefreshString strings = RefreshLocalizations.of(context)?.currentLocalization ?? EnRefreshString();
     return Text(
         mode == LoadStatus.loading
             ? widget.loadingText ?? strings.loadingText!
@@ -284,29 +251,21 @@ class _ClassicFooterState extends LoadIndicatorState<ClassicFooter> {
 
   @override
   Future endLoading() {
-    // TODO: implement endLoading
     return Future.delayed(widget.completeDuration);
   }
 
   @override
   Widget buildContent(BuildContext context, LoadStatus? mode) {
-    // TODO: implement buildChild
     Widget textWidget = _buildText(mode);
     Widget iconWidget = _buildIcon(mode);
     List<Widget> children = <Widget>[iconWidget, textWidget];
     final Widget container = Wrap(
       spacing: widget.spacing,
-      textDirection: widget.iconPos == IconPosition.left
-          ? TextDirection.ltr
-          : TextDirection.rtl,
-      direction: widget.iconPos == IconPosition.bottom ||
-              widget.iconPos == IconPosition.top
-          ? Axis.vertical
-          : Axis.horizontal,
+      textDirection: widget.iconPos == IconPosition.left ? TextDirection.ltr : TextDirection.rtl,
+      direction:
+          widget.iconPos == IconPosition.bottom || widget.iconPos == IconPosition.top ? Axis.vertical : Axis.horizontal,
       crossAxisAlignment: WrapCrossAlignment.center,
-      verticalDirection: widget.iconPos == IconPosition.bottom
-          ? VerticalDirection.up
-          : VerticalDirection.down,
+      verticalDirection: widget.iconPos == IconPosition.bottom ? VerticalDirection.up : VerticalDirection.down,
       alignment: WrapAlignment.center,
       children: children,
     );

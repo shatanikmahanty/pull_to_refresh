@@ -1,7 +1,5 @@
-
+import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
 import 'package:pull_to_refresh_new/pull_to_refresh.dart';
-import 'package:flutter/material.dart'
-    hide RefreshIndicator, RefreshIndicatorState;
 
 class RunningHeader extends RefreshIndicator {
   @override
@@ -11,8 +9,7 @@ class RunningHeader extends RefreshIndicator {
   }
 }
 
-class RunningHeaderState extends RefreshIndicatorState<RunningHeader>
-    with TickerProviderStateMixin {
+class RunningHeaderState extends RefreshIndicatorState<RunningHeader> with TickerProviderStateMixin {
   AnimationController _scaleAnimation;
   AnimationController _offsetController;
   Tween<Offset> offsetTween;
@@ -21,15 +18,13 @@ class RunningHeaderState extends RefreshIndicatorState<RunningHeader>
   void initState() {
     // TODO: implement initState
     _scaleAnimation = AnimationController(vsync: this);
-    _offsetController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+    _offsetController = AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
     offsetTween = Tween(end: Offset(0.6, 0.0), begin: Offset(0.0, 0.0));
     super.initState();
   }
 
   @override
   void onOffsetChange(double offset) {
-    // TODO: implement onOffsetChange
     if (!floating) {
       _scaleAnimation.value = offset / 80.0;
     }
@@ -53,7 +48,6 @@ class RunningHeaderState extends RefreshIndicatorState<RunningHeader>
 
   @override
   Future<void> endRefresh() {
-    // TODO: implement endRefresh
     return _offsetController.animateTo(1.0).whenComplete(() {});
   }
 

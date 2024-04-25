@@ -1,8 +1,6 @@
-
+import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
 import 'package:flutter/material.dart' as prefix0;
 import 'package:pull_to_refresh_new/pull_to_refresh.dart';
-import 'package:flutter/material.dart'
-    hide RefreshIndicator, RefreshIndicatorState;
 import 'package:shimmer/shimmer.dart';
 /*
    use to implements indicaotr
@@ -36,8 +34,7 @@ class ShimmerHeader extends RefreshIndicator {
   }
 }
 
-class _ShimmerHeaderState extends RefreshIndicatorState<ShimmerHeader>
-    with TickerProviderStateMixin {
+class _ShimmerHeaderState extends RefreshIndicatorState<ShimmerHeader> with TickerProviderStateMixin {
   AnimationController _scaleController;
   AnimationController _fadeController;
 
@@ -51,7 +48,6 @@ class _ShimmerHeaderState extends RefreshIndicatorState<ShimmerHeader>
 
   @override
   void onOffsetChange(double offset) {
-    // TODO: implement onOffsetChange
     if (!floating) {
       _scaleController.value = offset / configuration.headerTriggerDistance;
       _fadeController.value = offset / configuration.footerTriggerDistance;
